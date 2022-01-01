@@ -34,12 +34,12 @@ library(qrcode)
 This lecture is optimized for **Google Chrome** and it can be found at
 
 <center>
-https://jundurraga.github.io/INST_2020/#/
+https://jundurraga.github.io/DTU2022/#/
 </center>
 
 <center>
 ```{r qr_code, eval=T, echo=F, fig.cap="", fig.width=6, fig.height=2.5}
-plot(qr_code('https://jundurraga.github.io/INST_2020/#/'))
+plot(qr_code('https://jundurraga.github.io/DTU2022/#/'))
 ```
 </center>
 
@@ -47,7 +47,7 @@ plot(qr_code('https://jundurraga.github.io/INST_2020/#/'))
 A printable version of this presentation can be obtained at
 
 <center>
-https://jundurraga.github.io/INST_2020/?print-pdf#/
+https://jundurraga.github.io/DTU2022/?print-pdf#/
 </center>
 
 
