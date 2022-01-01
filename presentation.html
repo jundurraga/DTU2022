@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="author" content="Jaime A. Undurraga" />
+  <meta name="dcterms.date" content="2022-01-01" />
+  <title>Interfacing and Detecting Auditory Neural Information</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="presentation_files/reveal.js-3.3.0.1/css/reveal.css"/>
+
+
+
+<link rel="stylesheet" href="presentation_files/reveal.js-3.3.0.1/css/theme/white.css" id="theme">
+
+
+  <!-- some tweaks to reveal css -->
+  <style type="text/css">
+    .reveal h1 { font-size: 2.0em; }
+    .reveal h2 { font-size: 1.5em;  }
+    .reveal h3 { font-size: 1.25em;	}
+    .reveal h4 { font-size: 1em;	}
+
+    .reveal .slides>section,
+    .reveal .slides>section>section {
+      padding: 0px 0px;
+    }
+
+
+
+    .reveal table {
+      border-width: 1px;
+      border-spacing: 2px;
+      border-style: dotted;
+      border-color: gray;
+      border-collapse: collapse;
+      font-size: 0.7em;
+    }
+
+    .reveal table th {
+      border-width: 1px;
+      padding-left: 10px;
+      padding-right: 25px;
+      font-weight: bold;
+      border-style: dotted;
+      border-color: gray;
+    }
+
+    .reveal table td {
+      border-width: 1px;
+      padding-left: 10px;
+      padding-right: 25px;
+      border-style: dotted;
+      border-color: gray;
+    }
+
+    .reveal .slide-menu-button {
+      left: 105px !important;
+    }
+
+  </style>
+
+    <style type="text/css">code{white-space: pre;}</style>
+
+    <link rel="stylesheet" href="presentation.css"/>
+
+<!-- Printing and PDF exports -->
+<script id="paper-css" type="application/dynamic-css">
+
+/* Default Print Stylesheet Template
+   by Rob Glazebrook of CSSnewbie.com
+   Last Updated: June 4, 2008
+
+   Feel free (nay, compelled) to edit, append, and
+   manipulate this file as you see fit. */
+
+
+@media print {
+
+	/* SECTION 1: Set default width, margin, float, and
+	   background. This prevents elements from extending
+	   beyond the edge of the printed page, and prevents
+	   unnecessary background images from printing */
+	html {
+		background: #fff;
+		width: auto;
+		height: auto;
+		overflow: visible;
+	}
+	body {
+		background: #fff;
+		font-size: 20pt;
+		width: auto;
+		height: auto;
+		border: 0;
+		margin: 0 5%;
+		padding: 0;
+		overflow: visible;
+		float: none !important;
+	}
+
+	/* SECTION 2: Remove any elements not needed in print.
+	   This would include navigation, ads, sidebars, etc. */
+	.nestedarrow,
+	.controls,
+	.fork-reveal,
+	.share-reveal,
+	.state-background,
+	.reveal .progress,
+	.reveal .backgrounds {
+		display: none !important;
+	}
+
+	/* SECTION 3: Set body font face, size, and color.
+	   Consider using a serif font for readability. */
+	body, p, td, li, div {
+		font-size: 20pt!important;
+		font-family: Georgia, "Times New Roman", Times, serif !important;
+		color: #000;
+	}
+
+	/* SECTION 4: Set heading font face, sizes, and color.
+	   Differentiate your headings from your body text.
+	   Perhaps use a large sans-serif for distinction. */
+	h1,h2,h3,h4,h5,h6 {
+		color: #000!important;
+		height: auto;
+		line-height: normal;
+		font-family: Georgia, "Times New Roman", Times, serif !important;
+		text-shadow: 0 0 0 #000 !important;
+		text-align: left;
+		letter-spacing: normal;
+	}
+	/* Need to reduce the size of the fonts for printing */
+	h1 { font-size: 28pt !important;  }
+	h2 { font-size: 24pt !important; }
+	h3 { font-size: 22pt !important; }
+	h4 { font-size: 22pt !important; font-variant: small-caps; }
+	h5 { font-size: 21pt !important; }
+	h6 { font-size: 20pt !important; font-style: italic; }
+
+	/* SECTION 5: Make hyperlinks more usable.
+	   Ensure links are underlined, and consider appending
+	   the URL to the end of the link for usability. */
+	a:link,
+	a:visited {
+		color: #000 !important;
+		font-weight: bold;
+		text-decoration: underline;
+	}
+	/*
+	.reveal a:link:after,
+	.reveal a:visited:after {
+		content: " (" attr(href) ") ";
+		color: #222 !important;
+		font-size: 90%;
+	}
+	*/
+
+
+	/* SECTION 6: more reveal.js specific additions by @skypanther */
+	ul, ol, div, p {
+		visibility: visible;
+		position: static;
+		width: auto;
+		height: auto;
+		display: block;
+		overflow: visible;
+		margin: 0;
+		text-align: left !important;
+	}
+	.reveal pre,
+	.reveal table {
+		margin-left: 0;
+		margin-right: 0;
+	}
+	.reveal pre code {
+		padding: 20px;
+		border: 1px solid #ddd;
+	}
+	.reveal blockquote {
+		margin: 20px 0;
+	}
+	.reveal .slides {
+		position: static !important;
+		width: auto !important;
+		height: auto !important;
+
+		left: 0 !important;
+		top: 0 !important;
+		margin-left: 0 !important;
+		margin-top: 0 !important;
+		padding: 0 !important;
+		zoom: 1 !important;
+
+		overflow: visible !important;
+		display: block !important;
+
+		text-align: left !important;
+		-webkit-perspective: none;
+		   -moz-perspective: none;
+		    -ms-perspective: none;
+		        perspective: none;
+
+		-webkit-perspective-origin: 50% 50%;
+		   -moz-perspective-origin: 50% 50%;
+		    -ms-perspective-origin: 50% 50%;
+		        perspective-origin: 50% 50%;
+	}
+	.reveal .slides section {
+		visibility: visible !important;
+		position: static !important;
+		width: auto !important;
+		height: auto !important;
+		display: block !important;
+		overflow: visible !important;
+
+		left: 0 !important;
+		top: 0 !important;
+		margin-left: 0 !important;
+		margin-top: 0 !important;
+		padding: 60px 20px !important;
+		z-index: auto !important;
+
+		opacity: 1 !important;
+
+		page-break-after: always !important;
+
+		-webkit-transform-style: flat !important;
+		   -moz-transform-style: flat !important;
+		    -ms-transform-style: flat !important;
+		        transform-style: flat !important;
+
+		-webkit-transform: none !important;
+		   -moz-transform: none !important;
+		    -ms-transform: none !important;
+		        transform: none !important;
+
+		-webkit-transition: none !important;
+		   -moz-transition: none !important;
+		    -ms-transition: none !important;
+		        transition: none !important;
+	}
+	.reveal .slides section.stack {
+		padding: 0 !important;
+	}
+	.reveal section:last-of-type {
+		page-break-after: avoid !important;
+	}
+	.reveal section .fragment {
+		opacity: 1 !important;
+		visibility: visible !important;
+
+		-webkit-transform: none !important;
+		   -moz-transform: none !important;
+		    -ms-transform: none !important;
+		        transform: none !important;
+	}
+	.reveal section img {
+		display: block;
+		margin: 15px 0px;
+		background: rgba(255,255,255,1);
+		border: 1px solid #666;
+		box-shadow: none;
+	}
+
+	.reveal section small {
+		font-size: 0.8em;
+	}
+
+}  
+</script>
+
+
+<script id="pdf-css" type="application/dynamic-css">
+    
+/**
+ * This stylesheet is used to print reveal.js
+ * presentations to PDF.
+ *
+ * https://github.com/hakimel/reveal.js#pdf-export
+ */
+
+* {
+	-webkit-print-color-adjust: exact;
+}
+
+body {
+	margin: 0 auto !important;
+	border: 0;
+	padding: 0;
+	float: none !important;
+	overflow: visible;
+}
+
+html {
+	width: 100%;
+	height: 100%;
+	overflow: visible;
+}
+
+/* Remove any elements not needed in print. */
+.nestedarrow,
+.reveal .controls,
+.reveal .progress,
+.reveal .playback,
+.reveal.overview,
+.fork-reveal,
+.share-reveal,
+.state-background {
+	display: none !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	text-shadow: 0 0 0 #000 !important;
+}
+
+.reveal pre code {
+	overflow: hidden !important;
+	font-family: Courier, 'Courier New', monospace !important;
+}
+
+ul, ol, div, p {
+	visibility: visible;
+	position: static;
+	width: auto;
+	height: auto;
+	display: block;
+	overflow: visible;
+	margin: auto;
+}
+.reveal {
+	width: auto !important;
+	height: auto !important;
+	overflow: hidden !important;
+}
+.reveal .slides {
+	position: static;
+	width: 100%;
+	height: auto;
+
+	left: auto;
+	top: auto;
+	margin: 0 !important;
+	padding: 0 !important;
+
+	overflow: visible;
+	display: block;
+
+	-webkit-perspective: none;
+	   -moz-perspective: none;
+	    -ms-perspective: none;
+	        perspective: none;
+
+	-webkit-perspective-origin: 50% 50%; /* there isn't a none/auto value but 50-50 is the default */
+	   -moz-perspective-origin: 50% 50%;
+	    -ms-perspective-origin: 50% 50%;
+	        perspective-origin: 50% 50%;
+}
+
+.reveal .slides section {
+	page-break-after: always !important;
+
+	visibility: visible !important;
+	position: relative !important;
+	display: block !important;
+	position: relative !important;
+
+	margin: 0 !important;
+	padding: 0 !important;
+	box-sizing: border-box !important;
+	min-height: 1px;
+
+	opacity: 1 !important;
+
+	-webkit-transform-style: flat !important;
+	   -moz-transform-style: flat !important;
+	    -ms-transform-style: flat !important;
+	        transform-style: flat !important;
+
+	-webkit-transform: none !important;
+	   -moz-transform: none !important;
+	    -ms-transform: none !important;
+	        transform: none !important;
+}
+
+.reveal section.stack {
+	margin: 0 !important;
+	padding: 0 !important;
+	page-break-after: avoid !important;
+	height: auto !important;
+	min-height: auto !important;
+}
+
+.reveal img {
+	box-shadow: none;
+}
+
+.reveal .roll {
+	overflow: visible;
+	line-height: 1em;
+}
+
+/* Slide backgrounds are placed inside of their slide when exporting to PDF */
+.reveal section .slide-background {
+	display: block !important;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: -1;
+}
+
+/* All elements should be above the slide-background */
+.reveal section>* {
+	position: relative;
+	z-index: 1;
+}
+
+/* Display slide speaker notes when 'showNotes' is enabled */
+.reveal .speaker-notes-pdf {
+	display: block;
+	width: 100%;
+	max-height: none;
+	left: auto;
+	top: auto;
+	z-index: 100;
+}
+
+/* Display slide numbers when 'slideNumber' is enabled */
+.reveal .slide-number-pdf {
+	display: block;
+	position: absolute;
+	font-size: 14px;
+}
+
+</script>
+
+
+<script>
+var style = document.createElement( 'style' );
+style.type = 'text/css';
+var style_script_id = window.location.search.match( /print-pdf/gi ) ? 'pdf-css' : 'paper-css';
+var style_script = document.getElementById(style_script_id).text;
+style.innerHTML = style_script;
+document.getElementsByTagName('head')[0].appendChild(style);
+</script>
+
+    
+    <script src="presentation_files/header-attrs-2.11/header-attrs.js"></script>
+    <link href="presentation_files/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+    <link href="presentation_files/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+</head>
+<body>
+
+  <div class="reveal">
+    <div class="slides">
+
+<section>
+    <h1 class="title">Interfacing and Detecting Auditory Neural Information</h1>
+    <h2 class="author">Jaime A. Undurraga</h2>
+    <h3 class="date">2022-01-01</h3>
+</section>
+
+<section id="before-starting" class="slide level2">
+<h2>Before starting</h2>
+<p>This lecture is optimized for <strong>Google Chrome</strong> and it can be found at</p>
+<center>
+<a href="https://jundurraga.github.io/INST_2020/#/" class="uri">https://jundurraga.github.io/INST_2020/#/</a>
+</center>
+<center>
+<img src="presentation_files/figure-revealjs/qr_code-1.png" width="576" />
+</center>
+<p>A printable version of this presentation can be obtained at</p>
+<center>
+<a href="https://jundurraga.github.io/INST_2020/?print-pdf#/" class="uri">https://jundurraga.github.io/INST_2020/?print-pdf#/</a>
+</center>
+</section>
+<section>
+<section id="introduction" class="title-slide slide level1">
+<h1>Introduction</h1>
+
+</section>
+<section id="neural-interfaces" class="slide level2">
+<h2>Neural interfaces</h2>
+<ul>
+<li><p>Advancements in electronics able to interface with the nervous system is a rapidly advancing. The implications of these technologies reach basic sciences and medical applications.</p></li>
+<li><p>Furthermore, neural interfaces can provide a direct, electrical bridge between the nervous systems and machines with the potential of transferring information in one or both directions.</p></li>
+</ul>
+<center>
+<img data-src="my_figures/types_of_bci.png" style="width:70.0%" />
+</center>
+<center>
+From <span class="citation" data-cites="chaudharyBrainComputerInterfaces2016">Chaudhary, Birbaumer, and Ramos-Murguialday (2016)</span>
+</center>
+<!-- ## History -->
+<!-- - 1791 "De viribus electricitatis in motu muscolari. Commentarius" Galvani applied charges to the nerves of dead frogs’ muscles and observed contractions. -->
+<!-- <center> -->
+<!-- ![](./my_figures/RanaBott.jpg){width="20%"} -->
+<!-- <center> -->
+<!-- - 1949 voltage clamp technology -> Hodgkin and Huxley to record currents carried by sodium and potassium ions through nerve cell membranes using electrochemical gradients. -->
+<!-- - 1952 @hodgkinQuantitativeDescriptionMembrane1952 model mathematically describes the membrane potentials using a resistor–capacitor (RC) circuit model -->
+<!-- - 1957 André Djourno and Charles Eyriès first human cochlear implant experiment -->
+<!-- - 1961 William House first cochlear implantation -->
+<!-- - 1978 First multiple channel CI was implanted into deaf volunteer -->
+<!-- - 1991 [Utah](https://www.blackrockmicro.com/electrode-types/utah-array/) electrode array -->
+<!-- - 1997 Deep brain stimulation for Parkinson’s Disease -->
+<!-- - 2002 closed-loop brain machine interfacing in monkeys -->
+<!-- - 2009 [BrainGate2](https://www.braingate.org): brain implant system built designed to help those affected by neurologic disease or injury. -->
+<!-- - 2013 Responsive Neurostimulation (RNS) for epilepsy [@thomasCriticalReviewResponsive2015] -->
+<!-- - 2013 FDA Approves First Retinal Implant (Argus II) -->
+<!-- - 2019 [Neuralink](https://www.neuralink.com/) 3,072 electrode array [@muskIntegratedBrainmachineInterface2019] -->
+</section>
+<section id="hodgkin-and-huxley-model" class="slide level2">
+<h2>Hodgkin and Huxley model</h2>
+<div class="multiCol">
+<div class="col">
+<center>
+<span class="math inline">\(C_{m}\frac{dV}{dt} = I_{Na} + I_{K} + I_{leak} + I_{syn}\)</span>
+</center>
+<center>
+<span class="math inline">\(I_{Na} = \bar{g}_{Na} m^3 h \left(E_{Na} - V\right)\)</span>
+</center>
+<center>
+<span class="math inline">\(I_{K} = \bar{g}_{K} n^4 \left(E_{K} - V\right)\)</span>
+</center>
+<center>
+<span class="math inline">\(I_{leak} = \bar{g}_{leak} \left(E_{leak} - V\right)\)</span>
+</center>
+<center>
+<span class="math inline">\(I_{syn} = \sum_{i=1}^{n_{syn}} g_{syn_i} V\)</span>
+</center>
+</div>
+<div class="col">
+<video src="./my_figures/41592_2020_762_MOESM6_ESM.mp4" type="video/mp4" controls height="200" width="200" preload="auto">
+</video>
+<center>
+Glutamate transients
+</center>
+</div>
+</div>
+<center>
+<img data-src="my_figures/hodgkin_huxley_model.svg" style="width:100.0%" />
+<center>
+<p>The Hodgkin-Huxley model is the central pillar of modern neuroscience research. It implications range from molecular investigations of the structural basis of ionic channels to the basis of neural interfacing with technology.</p>
+</section>
+<section id="hodgkin-and-huxley-simulator" class="slide level2">
+<h2>Hodgkin and Huxley simulator</h2>
+<p><strong><a href="http://myselph.de/hodgkinHuxley.html">Try this simulator</a></strong>. Set random current (IRand) to zero, current injection stop-time (tInjStop) to 50, current amplitude (IDC) to 10 and <strong>investigate what is the effect on the neuron’s threshold and spike morphology when changing</strong></p>
+<ul>
+<li>pulse parameters: duration, amplitude</li>
+<li>maximum conductances: sodium (GNaMax), potassium (GKMax), leak (Gm)</li>
+<li>reversal potentials: sodium (ENa), potassium (EK)</li>
+</ul>
+<iframe width="800" height="600" marginheight="0" marginwidth="0" src="http://myselph.de/hodgkinHuxley.html" data-preview-link="true">
+</iframe>
+</section></section>
+<section>
+<section id="non-invasive-neural-interfaces" class="title-slide slide level1">
+<h1>Non-invasive Neural Interfaces</h1>
+
+</section>
+<section id="types-of-neural-interfaces" class="slide level2">
+<h2>Types of neural interfaces</h2>
+<p><img data-src="my_figures/non_invasive_types.png" style="width:100.0%" /></p>
+<ul>
+<li>Functional Near Infrared Spectroscopy (fNIRS)</li>
+<li>Functional magnetic resonance imaging (fMRI)</li>
+<li>Magnetoencephalography (MEG)</li>
+<li>Electroencephalogram (EEG)</li>
+</ul>
+</section>
+<section id="recording" class="slide level2">
+<h2>Recording</h2>
+<p>A neural interface builds a bidirectional communication channel between a subject’s nervous system and a man-made device. Non-invasive methods measure the compound extracellular activity of hundreds of thousands neurons.</p>
+<div class="column" style="float:left; width:60%; text-align: center">
+<p><img data-src="my_figures/non_invasive.png" style="width:70.0%" /></p>
+</div>
+<div class="column" style="float:right; width:40%; text-align: center">
+<p><strong>Indirect</strong>:</p>
+<p>Blood oxygen level dependent response (BOLD): a proxy measure of neural activity - <strong>neurovascular link</strong></p>
+<ul>
+<li>Functional magnetic resonance imaging (fMRI)</li>
+<li>Functional Near Infrared Spectroscopy (fNIRS)</li>
+</ul>
+<p><strong>Direct:</strong></p>
+<p>Electrical currents</p>
+<ul>
+<li>Electroencephalogram (EEG)</li>
+<li>Magnetoencephalography (MEG)</li>
+</ul>
+<p><strong>Advantages</strong></p>
+<ul>
+<li>No surgery is required</li>
+<li>Easy to upgrade</li>
+</ul>
+<p><strong>Disadvantages</strong></p>
+<ul>
+<li>Weak amplitude</li>
+<li>It may be difficult to achieve good contact between the sensor and the scalp (high impedance)</li>
+<li>Sensitive to endogenous contamination (movements, external noise)</li>
+<li>Portability is an issue</li>
+</ul>
+</div>
+</section>
+<section id="auditory-evoked-potentials" class="slide level2">
+<h2>Auditory evoked potentials</h2>
+<center>
+<img data-src="my_figures/auditory_path_transient_reponse.png" style="width:50.0%" />
+</center>
+</section>
+<section id="abrs" class="slide level2">
+<h2>ABRs</h2>
+<div class="column" style="float:left; width:30%; text-align: center">
+<center>
+<img data-src="my_figures/configuration.png" style="width:100.0%" />
+</center>
+</div>
+<div class="column" style="float:right; width:70%; text-align: center">
+<video src="./my_figures/abr_example2.mp4" type="video/mp4" controls height="600" width="900" preload="auto">
+</video>
+<center>
+</div>
+</section>
+<section id="hz-assr" class="slide level2">
+<h2>80 Hz ASSR</h2>
+<div class="column" style="float:left; width:30%; text-align: center">
+<center>
+<img data-src="my_figures/configuration.png" style="width:100.0%" />
+</center>
+</div>
+<div class="column" style="float:right; width:70%; text-align: center">
+<video src="./my_figures/80hz_assr_example2.mp4" type="video/mp4" controls height="600" width="900" preload="auto">
+</video>
+<center>
+</div>
+</section>
+<section id="hz-assr-1" class="slide level2">
+<h2>40 Hz ASSR</h2>
+<div class="column" style="float:left; width:30%; text-align: center">
+<center>
+<img data-src="my_figures/configuration.png" style="width:100.0%" />
+</center>
+</div>
+<div class="column" style="float:right; width:70%; text-align: center">
+<video src="./my_figures/40hz_assr_example2.mp4" type="video/mp4" controls height="600" width="900" preload="auto">
+</video>
+<center>
+</div>
+</section>
+<section id="cortical-responses-to-auditory-changes" class="slide level2">
+<h2>Cortical responses to auditory changes</h2>
+<div class="column" style="float:left; width:45%; text-align: right">
+<p><strong>Spectral cues</strong></p>
+<p><img data-src="my_figures/paradigm.png" style="width:100.0%" /></p>
+<ul>
+<li><p>Transient auditory complex change (ACC) responses to speech, electrodes changes, and temporal cues (<span class="citation" data-cites="kimAcousticChangeComplex2015">Kim (2015)</span>, <span class="citation" data-cites="mathewDevelopmentElectrophysiologicalBehavioural2018">Mathew et al. (2018)</span>)</p></li>
+<li><p>Steady-state auditory change following responses (AC-FR) <span class="citation" data-cites="undurragaNeuralEncodingSpectroTemporal2020">Undurraga et al. (2020)</span></p></li>
+</ul>
+</div>
+<div class="column" style="float:right; width:45%; text-align: right">
+<p><strong>Binaural cues</strong></p>
+<p><img data-src="my_figures/stimuli.png" style="width:100.0%" /></p>
+<p><span class="citation" data-cites="undurragaNeuralRepresentationInteraural2016">Undurraga et al. (2016)</span></p>
+</div>
+</section>
+<section id="section" class="slide level2">
+<h2></h2>
+<div class="column" style="float:left; width:100%; text-align: right">
+<table>
+<tbody>
+<tr class="odd">
+<td><video width="320" height="240" controls source src="./my_figures/example-90.0_90.0.mp4" type="video/mp4"></td>
+<td><video width="320" height="240" controls source src="./my_figures/example-45.0_45.0.mp4" type="video/mp4"></td>
+<td><video width="320" height="240" controls source src="./my_figures/example-22.5_22.5.mp4" type="video/mp4"></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="ac-fr-responses-to-binaural-cues" class="slide level2">
+<h2>AC-FR responses to binaural cues</h2>
+<div class="column" style="float:left; width:30%; text-align: center">
+<center>
+<img data-src="my_figures/configuration.png" style="width:100.0%" />
+</center>
+</div>
+<div class="column" style="float:right; width:70%; text-align: center">
+<video src="./my_figures/ipm_fr_example2.mp4" type="video/mp4" controls height="600" width="900" preload="auto">
+</video>
+<center>
+</div>
+</section></section>
+<section>
+<section id="the-project" class="title-slide slide level1">
+<h1>The project</h1>
+
+</section>
+<section id="spectral-cues" class="slide level2">
+<h2>Spectral cues</h2>
+<ul>
+<li>Spectral cues are critical for communication</li>
+<li>Information used to distinguish between speech sounds can be represented by specifying peaks in the frequency spectrum</li>
+<li>First (F1) and second (F2) formants are mostly sufficient to identify a vowel</li>
+</ul>
+<center>
+<img data-src="my_figures/Average_vowel_formants_F1_F2.png" style="width:50.0%" />
+</center>
+</section>
+<section id="objective-detection-of-discrimination" class="slide level2">
+<h2>Objective detection of discrimination</h2>
+<ul>
+<li>Objective detection of spectral discrimination could be useful for the fitting of hearing devices <span class="citation" data-cites="undurragaNeuralEncodingSpectroTemporal2020">Undurraga et al. (2020)</span>.</li>
+<li>Support decision-making for hearing aid fitting and CI referral (for the parents and audiologists) <span class="citation" data-cites="mehtaRoleCorticalAuditory2017a">Mehta et al. (2017)</span>.</li>
+</ul>
+<p><strong>Aim</strong></p>
+<p>To demonstrate objectively that phoneme-like signals (speech) can be discriminated.</p>
+</section>
+<section id="methods" class="slide level2">
+<h2>Methods</h2>
+<div class="column" style="float:left; width:60%; text-align: center">
+<ul>
+<li>Two complex signals with different spectral components alternate periodically.</li>
+<li>Identical energy for the two signals.</li>
+<li>Different amplitude modulations (AMs) imposed to each ear to evoked auditory steady-state responses (ASSRs) to each AM.</li>
+<li>Cortical auditory change complex generated by each transition</li>
+</ul>
+<p><img data-src="my_figures/project_paradigm.png" style="width:90.0%" /></p>
+</div>
+<div class="column" style="float:right; width:40%; text-align: center">
+<ui class="fragment" data-fragment-index="0" > Examples tested </ui>
+<li class="fragment" data-fragment-index="1" data-audio-src="./audio/40_40.wav" data-audio-advance="-1">
+40 Hz - 40 Hz
+</li>
+<li class="fragment" data-fragment-index="2" data-audio-src="./audio/40_80.wav" data-audio-advance="-1">
+40 Hz - 80 Hz
+</li>
+</div>
+</section>
+<section id="methods-1" class="slide level2">
+<h2>Methods</h2>
+<div class="column" style="float:left; width:60%; text-align: center">
+<p><strong>EEG</strong></p>
+<ul>
+<li><p><strong>Continuous stimulation</strong></p></li>
+<li><p>EEG: 8 channels Biosemi system.</p></li>
+<li><p>Stimuli presentation via <a href="https://gitlab.com/jundurraga/ucl-matlab">AEP GUI</a></p></li>
+<li><p>Real-time analysis <a href="https://gitlab.com/jundurraga/biosemi_real_time">Biosemi real-time GUI</a></p></li>
+<li><p>Analysis <a href="https://gitlab.com/jundurraga/pyeeg-python">PyEEG-Python</a></p></li>
+</ul>
+</section>
+<section id="references" class="slide level2 unnumbered">
+<h2 class="unnumbered">References</h2>
+<div id="refs" class="references hanging-indent" role="doc-bibliography">
+<div id="ref-chaudharyBrainComputerInterfaces2016">
+<p>Chaudhary, Ujwal, Niels Birbaumer, and Ander Ramos-Murguialday. 2016. “Brain–Computer Interfaces for Communication and Rehabilitation.” <em>Nature Reviews Neurology</em> 12 (9): 513–25. <a href="https://doi.org/10.1038/nrneurol.2016.113">https://doi.org/10.1038/nrneurol.2016.113</a>.</p>
+</div>
+<div id="ref-kimAcousticChangeComplex2015">
+<p>Kim, Jae-Ryong. 2015. “Acoustic Change Complex: Clinical Implications.” <em>J Audiol Otol</em> 19 (3): 120–24. <a href="https://doi.org/10.7874/jao.2015.19.3.120">https://doi.org/10.7874/jao.2015.19.3.120</a>.</p>
+</div>
+<div id="ref-mathewDevelopmentElectrophysiologicalBehavioural2018">
+<p>Mathew, Rajeev, Deborah Vickers, Patrick Boyle, Azhar Shaida, David Selvadurai, Dan Jiang, and Jaime A. Undurraga. 2018. “Development of Electrophysiological and Behavioural Measures of Electrode Discrimination in Adult Cochlear Implant Users.” <em>Hearing Research</em> 367 (September): 74–87. <a href="https://doi.org/10.1016/j.heares.2018.07.002">https://doi.org/10.1016/j.heares.2018.07.002</a>.</p>
+</div>
+<div id="ref-mehtaRoleCorticalAuditory2017a">
+<p>Mehta, Kinjal, Peter Watkin, Margaret Baldwin, Josephine Marriage, Merle Mahon, and Deborah Vickers. 2017. “Role of Cortical Auditory Evoked Potentials in Reducing the Age at Hearing Aid Fitting in Children with Hearing Loss Identified by Newborn Hearing Screening.” <em>Trends in Hearing</em> 21 (January): 2331216517744094. <a href="https://doi.org/10.1177/2331216517744094">https://doi.org/10.1177/2331216517744094</a>.</p>
+</div>
+<div id="ref-undurragaNeuralRepresentationInteraural2016">
+<p>Undurraga, Jaime A., Nick R. Haywood, Torsten Marquardt, and David McAlpine. 2016. “Neural Representation of Interaural Time Differences in Humans—an Objective Measure That Matches Behavioural Performance.” <em>JARO</em>, September, 1–17. <a href="https://doi.org/10.1007/s10162-016-0584-6">https://doi.org/10.1007/s10162-016-0584-6</a>.</p>
+</div>
+<div id="ref-undurragaNeuralEncodingSpectroTemporal2020">
+<p>Undurraga, Jaime A., Lindsey Van Yper, Manohar Bance, David McAlpine, and Deborah Vickers. 2020. “Neural Encoding of Spectro-Temporal Cues at Slow and Near Speech-Rate in Cochlear Implant Users.” <em>Hearing Research</em>, December, 108160. <a href="https://doi.org/10.1016/j.heares.2020.108160">https://doi.org/10.1016/j.heares.2020.108160</a>.</p>
+</div>
+</div>
+</section></section>
+    </div>
+  </div>
+
+  <script src="presentation_files/reveal.js-3.3.0.1/lib/js/head.min.js"></script>
+  <script src="presentation_files/reveal.js-3.3.0.1/js/reveal.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        // Display a presentation progress bar
+        progress: true,
+        // Display the page number of the current slide
+        slideNumber: true,
+        // Push each slide change to the browser history
+        history: true,
+        // Vertical centering of slides
+        center: false,
+        // Opens links in an iframe preview overlay
+        previewLinks: true,
+        // Transition style
+        transition: 'fade', // none/fade/slide/convex/concave/zoom
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'default', // none/fade/slide/convex/concave/zoom
+
+        menu: {
+   
+    
+    
+    
+    
+    
+    
+ 
+          custom: false,
+          themes: false,
+          transitions: false
+        },
+
+
+
+        chalkboard: {
+          toggleNotesButton: true,
+        },
+
+        keyboard: {
+          67: function() { RevealChalkboard.toggleNotesCanvas() },    // toggle notes canvas when 'c' is pressed
+          66: function() { RevealChalkboard.toggleChalkboard() }, // toggle chalkboard when 'b' is pressed
+          46: function() { RevealChalkboard.clear() },    // clear chalkboard when 'DEL' is pressed
+           8: function() { RevealChalkboard.reset() },    // reset chalkboard data on current slide when 'BACKSPACE' is pressed
+          68: function() { RevealChalkboard.download() }, // downlad recorded chalkboard drawing when 'd' is pressed
+        },
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: 'presentation_files/reveal.js-3.3.0.1/plugin/notes/notes.js', async: true },
+          { src: 'presentation_files/reveal.js-3.3.0.1/plugin/zoom-js/zoom.js', async: true },
+          { src: 'presentation_files/reveal.js-3.3.0.1/plugin/chalkboard/chalkboard.js', async: true },
+          { src: 'presentation_files/reveal.js-3.3.0.1/plugin/menu/menu.js', async: true },
+        ]
+      });
+    </script>
+  <!-- dynamically load mathjax for compatibility with self-contained -->
+  <script>
+    (function () {
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+      document.getElementsByTagName("head")[0].appendChild(script);
+    })();
+  </script>
+
+<script>
+  (function() {
+    if (window.jQuery) {
+      Reveal.addEventListener( 'slidechanged', function(event) {  
+        window.jQuery(event.previousSlide).trigger('hidden');
+        window.jQuery(event.currentSlide).trigger('shown');
+      });
+    }
+  })();
+</script>
+
+<script>
+ Reveal.initialize({
+    // Optional reveal.js plugins
+    dependencies: [
+        { src: './reveal.js-plugins-master/audio-slideshow/slideshow-recorder.js', condition: function( ) { return !!document.body.classList; } },	
+		{ src: './reveal.js-plugins-master/audio-slideshow/audio-slideshow.js', condition: function( ) { return !!document.body.classList; } },
+    ], 
+    audio: {
+		prefix: 'audio/', 	// audio files are stored in the "audio" folder
+		suffix: '.wav',		// audio files have the ".ogg" ending
+		textToSpeechURL: null,  // the URL to the text to speech converter
+		defaultNotes: false, 	// use slide notes as default for the text to speech converter
+		defaultText: false, 	// use slide text as default for the text to speech converter
+		advance: 0, 		// advance to next slide after given time in milliseconds after audio has played, use negative value to not advance 
+		autoplay: false,	// automatically start slideshow
+		defaultDuration: 5,	// default duration in seconds if no audio is available 
+		playerOpacity: 0.05,	// opacity value of audio player if unfocused
+		playerStyle: 'position: fixed; bottom: 4px; left: 25%; width: 50%; height:75px; z-index: 33;', // style used for container of audio controls 
+		startAtFragment: false, // when moving to a slide, start at the current fragment or at the start of the slide
+	},
+});
+</script>	
+
+  </body>
+</html>

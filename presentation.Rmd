@@ -1,0 +1,377 @@
+---
+title:  "Interfacing and Detecting Auditory Neural Information"
+author: "Jaime A. Undurraga"
+date: "`r Sys.Date()`"
+output: 
+ revealjs::revealjs_presentation:
+   theme: white
+   transition: fade
+   slide_level: 2
+   self_contained: false
+   reveal_plugins: ["menu", "zoom", "notes", "chalkboard"]
+   reveal_options:
+     chalkboard: 
+       toggleNotesButton: true
+     slideNumber: true
+     progress: true
+     previewLinks: true
+   includes:
+     in_header: header.html
+     before_body: doc_prefix.html
+     after_body: doc_suffix.html
+   css: presentation.css
+   # pandoc_args: [ "--output=index.html"]
+bibliography: ./library.bib  
+---
+
+```{r setup, include=T, echo=FALSE}
+knitr::opts_chunk$set(echo=FALSE, warning=FALSE, message=FALSE, kfigr.prefix=TRUE, kfigr.link=TRUE, comment=NA)
+library(qrcode)
+```
+
+## Before starting
+
+This lecture is optimized for **Google Chrome** and it can be found at
+
+<center>
+https://jundurraga.github.io/INST_2020/#/
+</center>
+
+<center>
+```{r qr_code, eval=T, echo=F, fig.cap="", fig.width=6, fig.height=2.5}
+plot(qr_code('https://jundurraga.github.io/INST_2020/#/'))
+```
+</center>
+
+
+A printable version of this presentation can be obtained at
+
+<center>
+https://jundurraga.github.io/INST_2020/?print-pdf#/
+</center>
+
+
+
+# Introduction
+
+## Neural interfaces
+
+- Advancements in electronics able to interface with the nervous system is a rapidly advancing.
+The implications of these technologies reach basic sciences and medical applications.
+
+- Furthermore, neural interfaces can provide a direct, electrical bridge between the nervous systems and machines with the potential of transferring information in one or both directions.
+
+
+<center>
+![](./my_figures/types_of_bci.png){width="70%"}
+</center>
+
+<center>
+From @chaudharyBrainComputerInterfaces2016
+</center>
+
+<!-- ## History -->
+
+<!-- - 1791 "De viribus electricitatis in motu muscolari. Commentarius" Galvani applied charges to the nerves of dead frogs’ muscles and observed contractions. -->
+
+<!-- <center> -->
+<!-- ![](./my_figures/RanaBott.jpg){width="20%"} -->
+<!-- <center> -->
+
+<!-- - 1949 voltage clamp technology -> Hodgkin and Huxley to record currents carried by sodium and potassium ions through nerve cell membranes using electrochemical gradients. -->
+
+<!-- - 1952 @hodgkinQuantitativeDescriptionMembrane1952 model mathematically describes the membrane potentials using a resistor–capacitor (RC) circuit model -->
+
+<!-- - 1957 André Djourno and Charles Eyriès first human cochlear implant experiment -->
+
+<!-- - 1961 William House first cochlear implantation -->
+
+<!-- - 1978 First multiple channel CI was implanted into deaf volunteer -->
+
+<!-- - 1991 [Utah](https://www.blackrockmicro.com/electrode-types/utah-array/) electrode array -->
+
+<!-- - 1997 Deep brain stimulation for Parkinson’s Disease -->
+
+<!-- - 2002 closed-loop brain machine interfacing in monkeys -->
+
+<!-- - 2009 [BrainGate2](https://www.braingate.org): brain implant system built designed to help those affected by neurologic disease or injury. -->
+
+<!-- - 2013 Responsive Neurostimulation (RNS) for epilepsy [@thomasCriticalReviewResponsive2015] -->
+
+<!-- - 2013 FDA Approves First Retinal Implant (Argus II) -->
+
+<!-- - 2019 [Neuralink](https://www.neuralink.com/) 3,072 electrode array [@muskIntegratedBrainmachineInterface2019] -->
+
+
+
+
+
+## Hodgkin and Huxley model
+
+<div class='multiCol'>
+<div class='col'>
+
+<center>
+$C_{m}\frac{dV}{dt} = I_{Na} +  I_{K} + I_{leak} + I_{syn}$
+</center>
+
+<center>
+$I_{Na} = \bar{g}_{Na} m^3 h \left(E_{Na} - V\right)$
+</center>
+
+<center>
+$I_{K} = \bar{g}_{K} n^4 \left(E_{K} - V\right)$
+</center>
+
+<center>
+$I_{leak} = \bar{g}_{leak} \left(E_{leak} - V\right)$
+</center>
+
+<center>
+$I_{syn} = \sum_{i=1}^{n_{syn}} g_{syn_i} V$
+</center>
+
+</div>
+<div class='col'>
+<video src="./my_figures/41592_2020_762_MOESM6_ESM.mp4" type="video/mp4" controls height="200" width="200" preload="auto">
+</video>
+<center>
+Glutamate transients 
+</center>
+
+</div>
+</div>
+
+
+
+
+<center>
+![](./my_figures/hodgkin_huxley_model.svg){width="100%"}
+<center>
+
+The Hodgkin-Huxley model is the central pillar of modern neuroscience research.
+It implications range from molecular investigations of the structural basis of ionic channels to the basis of neural interfacing with technology. 
+
+## Hodgkin and Huxley simulator 
+
+**[Try this simulator](http://myselph.de/hodgkinHuxley.html)**. Set random current (IRand) to zero, current injection stop-time (tInjStop) to 50, current amplitude (IDC) to 10  and  **investigate what is the effect on the neuron's threshold and spike morphology when changing**
+
+- pulse parameters:  duration, amplitude 
+- maximum conductances: sodium (GNaMax), potassium (GKMax), leak (Gm)
+- reversal potentials: sodium (ENa), potassium (EK)
+
+<iframe width="800" height="600" marginheight="0" marginwidth="0" src="http://myselph.de/hodgkinHuxley.html" data-preview-link="true">
+</iframe>
+
+
+# Non-invasive Neural Interfaces
+
+## Types of neural interfaces
+
+![](./my_figures/non_invasive_types.png){width="100%"}
+
+- Functional Near Infrared Spectroscopy (fNIRS)
+- Functional magnetic resonance imaging (fMRI)
+- Magnetoencephalography (MEG)
+- Electroencephalogram (EEG)
+
+## Recording
+
+A neural interface builds a bidirectional communication channel between a subject’s nervous system and a man-made device.
+Non-invasive methods measure the compound extracellular activity of hundreds of thousands neurons.
+
+
+<div class="column" style="float:left; width:60%; text-align: center">
+
+![](./my_figures/non_invasive.png){width="70%"}
+</div>
+<div class="column" style="float:right; width:40%; text-align: center">
+
+
+**Indirect**: 
+
+Blood oxygen level dependent response (BOLD): a proxy measure of neural activity - **neurovascular link**
+
+- Functional magnetic resonance imaging (fMRI)
+- Functional Near Infrared Spectroscopy (fNIRS)
+
+**Direct:**
+
+Electrical currents
+
+- Electroencephalogram (EEG)
+- Magnetoencephalography (MEG)
+
+**Advantages** 
+
+- No surgery is required
+- Easy to upgrade
+
+**Disadvantages**
+
+- Weak amplitude
+- It may be difficult to achieve good contact between the sensor and the scalp (high impedance)
+- Sensitive to endogenous contamination (movements, external noise)
+- Portability is an issue
+
+</div>
+
+
+## Auditory evoked potentials
+
+
+<center>
+![](./my_figures/auditory_path_transient_reponse.png){width="50%"}
+</center>
+
+## ABRs
+
+<div class="column" style="float:left; width:30%; text-align: center">
+<center>
+![](./my_figures/configuration.png){width="100%"}
+</center>
+</div>
+
+<div class="column" style="float:right; width:70%; text-align: center">
+<video src="./my_figures/abr_example2.mp4" type="video/mp4" controls height="600" width="900" preload="auto">
+</video>
+<center>
+</div>
+
+## 80 Hz ASSR
+
+<div class="column" style="float:left; width:30%; text-align: center">
+<center>
+![](./my_figures/configuration.png){width="100%"}
+</center>
+</div>
+
+<div class="column" style="float:right; width:70%; text-align: center">
+<video src="./my_figures/80hz_assr_example2.mp4" type="video/mp4" controls height="600" width="900" preload="auto">
+</video>
+<center>
+</div>
+
+## 40 Hz ASSR
+
+<div class="column" style="float:left; width:30%; text-align: center">
+<center>
+![](./my_figures/configuration.png){width="100%"}
+</center>
+</div>
+
+<div class="column" style="float:right; width:70%; text-align: center">
+<video src="./my_figures/40hz_assr_example2.mp4" type="video/mp4" controls height="600" width="900" preload="auto">
+</video>
+<center>
+</div>
+
+## Cortical responses to auditory changes
+
+<div class="column" style="float:left; width:45%; text-align: right">
+
+**Spectral cues**
+
+![](./my_figures/paradigm.png){width=100%}
+
+- Transient auditory complex change (ACC) responses to speech, electrodes changes, and temporal cues (@kimAcousticChangeComplex2015, @mathewDevelopmentElectrophysiologicalBehavioural2018)
+
+- Steady-state auditory change following responses (AC-FR) @undurragaNeuralEncodingSpectroTemporal2020
+
+
+</div>
+
+<div class="column" style="float:right; width:45%; text-align: right">
+
+**Binaural cues**
+
+![](./my_figures/stimuli.png){width=100%}
+
+@undurragaNeuralRepresentationInteraural2016
+
+</div>
+
+
+##
+
+<div class="column" style="float:left; width:100%; text-align: right">
+
+||||
+|-|-|-|
+|<video width="320" height="240" controls source src="./my_figures/example-90.0_90.0.mp4" type="video/mp4">| <video width="320" height="240" controls source src="./my_figures/example-45.0_45.0.mp4" type="video/mp4">|<video width="320" height="240" controls source src="./my_figures/example-22.5_22.5.mp4" type="video/mp4">|
+
+</div>
+
+
+## AC-FR responses to binaural cues
+
+<div class="column" style="float:left; width:30%; text-align: center">
+<center>
+![](./my_figures/configuration.png){width="100%"}
+</center>
+</div>
+
+<div class="column" style="float:right; width:70%; text-align: center">
+<video src="./my_figures/ipm_fr_example2.mp4" type="video/mp4" controls height="600" width="900" preload="auto">
+</video>
+<center>
+</div>
+
+# The project
+
+## Spectral cues
+
+- Spectral cues are critical for communication
+- Information used to distinguish between speech sounds can be represented by specifying peaks in the frequency spectrum
+- First (F1) and second (F2) formants are mostly sufficient to identify a vowel
+
+<center>
+![](./my_figures/Average_vowel_formants_F1_F2.png){width="50%"}
+</center>
+
+## Objective detection of discrimination
+
+- Objective detection of spectral discrimination could be useful for the fitting of hearing devices @undurragaNeuralEncodingSpectroTemporal2020.
+- Support decision-making for hearing aid fitting and CI referral (for the parents and audiologists) @mehtaRoleCorticalAuditory2017a.
+
+**Aim**
+
+To demonstrate objectively that phoneme-like signals (speech) can be discriminated.
+
+## Methods
+
+<div class="column" style="float:left; width:60%; text-align: center">
+
+- Two complex signals with different spectral components alternate periodically.
+- Identical energy for the two signals.
+- Different amplitude modulations (AMs) imposed to each ear to evoked auditory steady-state responses (ASSRs) to each AM.
+- Cortical auditory change complex generated by each transition
+
+
+![](./my_figures/project_paradigm.png){width="90%"}
+
+</div>
+
+<div class="column" style="float:right; width:40%; text-align: center">
+
+<ui class="fragment" data-fragment-index="0" > Examples tested </ui>
+<li class="fragment" data-fragment-index="1" data-audio-src="./audio/40_40.wav" data-audio-advance=-1> 40 Hz - 40 Hz </li>
+<li class="fragment" data-fragment-index="2" data-audio-src="./audio/40_80.wav" data-audio-advance=-1> 40 Hz - 80 Hz </li>
+
+</div>
+
+## Methods
+
+<div class="column" style="float:left; width:60%; text-align: center">
+**EEG**
+
+- **Continuous stimulation**
+
+- EEG: 8 channels Biosemi system.
+- Stimuli presentation via [AEP GUI](https://gitlab.com/jundurraga/ucl-matlab) 
+- Real-time analysis [Biosemi real-time GUI](https://gitlab.com/jundurraga/biosemi_real_time) 
+- Analysis [PyEEG-Python](https://gitlab.com/jundurraga/pyeeg-python) 
+
+
+
+## References
