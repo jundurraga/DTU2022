@@ -363,15 +363,28 @@ To demonstrate objectively that phoneme-like signals (speech) can be discriminat
 ## Methods
 
 <div class="column" style="float:left; width:60%; text-align: center">
+
 **EEG**
 
 - **Continuous stimulation**
-
 - EEG: 8 channels Biosemi system.
 - Stimuli presentation via [AEP GUI](https://gitlab.com/jundurraga/ucl-matlab) 
 - Real-time analysis [Biosemi real-time GUI](https://gitlab.com/jundurraga/biosemi_real_time) 
 - Analysis [PyEEG-Python](https://gitlab.com/jundurraga/pyeeg-python) 
 
+**Stimuli** 
 
+Consider different aspects 
+
+- Intensity
+- Spectral components
+- Modulation Frequencies
+
+
+</div>
+
+<div class="column" style="float:right; width:40%; text-align: center">
+![](./my_figures/configuration_project.png){width="100%"}
+</div>
 
 ## References
