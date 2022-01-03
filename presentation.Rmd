@@ -220,6 +220,191 @@ Electrical currents
 
 </div>
 
+## Stimulation
+
+<div class='multiCol'>
+<div class='col'>
+![](./my_figures/non_invasive_stim.png){width="100%"}
+</div>
+<div class="col">
+- Transcranial current stimulation (TCS)
+- Transcranial magnetic stimulation (TCS)
+- Transcranial focused ultrasound (TFS)
+- Transcranial photobiomodulation (tPBM)
+
+**Advantages**
+
+- No surgery required
+
+**Disadvantages**
+
+- Poor spatial resolution and low control
+- Limited time 
+- Portability is an issue
+
+
+Is there more? 
+
+
+
+</div>
+</div>
+
+
+# Invasive Neural Interfaces 
+
+## Types of neural interfaces
+
+<center>
+![](./my_figures/implantable_electrodes.png){width="70%"}
+</center>
+
+- Non-penetrating electrodes: Electrocorticography (ECoG), Flexible μECoG electrodes (spatial resolution $\le$ millimetre range)
+- Penetrating electrodes
+- Optical electrodes
+
+## Recording
+
+<div class='multiCol'>
+
+<div class='col' style="width: 50%">
+
+</center>
+![](./my_figures/recording_spikes.png){width="100%"}
+<center>
+</div>
+
+<div class='col' style="width: 20%">
+<br>
+
+**Advantages**
+
+- High spatial and temporal resolution 
+- Increased signal-to-noise ratio
+- Possibility of stimulating and recording neural activity simultaneously
+
+**Disadvantages**
+
+- Require surgery 
+- Damage of neural and vascular structures
+- Risk that any head trauma may damage the device
+- Compatibility issues with other systems (e.g. MRI).
+
+</div>
+
+## Stimulation 
+
+- Biphasic stimulation is the most commonly use pulse shape
+
+<center>
+![](./my_figures/el_discrimination_paradigm.svg){width="80%"}
+</center>
+<!-- ![](./my_figures/pulse_shapes_and_modes.png){width="100%"} -->
+
+<br>
+
+- Several pulse shapes 
+- Several stimulation modes (Monopolar, biopolar, multipolar)
+- Several parameters (pulse width, rate, amplitude, polarity)
+
+# Encoding of sounds
+
+## Monaural Pathway
+
+<center>
+<img class="fragment" data-fragment-index="0" src="./my_figures/Anatomy_of_the_Human_Ear.svg" width="80%">
+</center>
+
+## Monaural Pathway
+
+<center>
+<img class="fragment" data-fragment-index="1" src="./my_figures/Uncoiled_cochlea_with_basilar_membrane_color.png" width="45%">
+<img class="fragment" data-fragment-index="2" src="./my_figures/Cochlea-crosssection.png" width="25%">
+<br>
+<img class="fragment" data-fragment-index="3" src="./my_figures/auditory_nerve.png" width="25%">
+</center>
+
+
+## Coding at moderate intensity levels
+
+- 500 Hz tone modulated at 40 Hz at *25 dB SPL*
+
+<center>
+![](./figures_an/figures_anf_left/plot_raster/plot_raster__c_f_5.0e+02__source_an_m_f_2.7e+01__m_i_1.0e+00__spl_2.5e+01_gbc.png){width="70%"}
+</center>
+
+ 
+## Coding at moderate-to-middle intensity levels
+ 
+- 500 Hz tone modulated at 40 Hz at *45 dB SPL*
+<center>
+![](./figures_an/figures_anf_left/plot_raster/plot_raster__c_f_5.0e+02__source_an_m_f_2.7e+01__m_i_1.0e+00__spl_4.5e+01_gbc.png){width="70%"}
+</center>
+
+
+## Coding at middle intensity levels
+
+- 500 Hz tone modulated at 40 Hz at *65 dB SPL*
+<center>
+![](./figures_an/figures_anf_left/plot_raster/plot_raster__c_f_5.0e+02__source_an_m_f_2.7e+01__m_i_1.0e+00__spl_6.5e+01_gbc.png){width="70%"}
+</center>
+
+
+- Cochear synaptopathy reduces the ability to encode sound envelopes, specially at at higher inentensity levels.
+
+
+## Input to one ear
+
+<center>
+
+<br>
+![](./my_figures/spectrogram_cheap.png){width="40%"}
+<br>
+Output at the auditory nerve level
+<br> 
+![](./my_figures/rater.png){width="40%"}
+</center>
+
+
+## Which features are conveyed by speech sounds?
+
+- Temporal fine structure (TFS)
+- Envelope information (ENV)
+
+<li class ="fragment" data-fragment-index="0" data-audio-src="./audio/vocoder_ch_6_arctic_a0008.wav" data-audio-advance=-1> Play 6 Channel vocoder </li>
+<li class ="fragment" data-fragment-index="1" data-audio-src="./audio/original_arctic_a0008.wav" data-audio-advance=-1> Play Original </li>
+
+<center>
+![](./my_figures/temporal-example.png){width="60%"}
+</center>
+
+
+# Objective detection of auditory processing in humans
+
+## Electroencephalogram (EEG)
+
+- EEG allows to record electrical activity of the brain by means of electrodes placed along the scalp.
+
+<center>
+![](./my_figures/eeg_brain_example.png){width="60%"}
+</center>
+
+
+## EEG principle
+
+<center>
+![](./my_figures/Luck_2005_erp.png){width="50%"}
+</center>
+
+<center>
+(From Luck 2005)
+</center>
+
+## General problem 
+
+<center>
+![](./my_figures/general_problem.png){width="80%"}
+</center>
 
 ## Auditory evoked potentials
 
@@ -228,7 +413,28 @@ Electrical currents
 ![](./my_figures/auditory_path_transient_reponse.png){width="50%"}
 </center>
 
-## ABRs
+## Transient and sustained response
+<center>
+![](./my_figures/transients_sutained_brain_responses.png){width="60%"}
+</center>
+
+## Lab settings
+
+<center>
+![](./my_figures/eeg_setting.png){width="50%"}
+</center>
+
+<center>
+![](./my_figures/software_biosemi_01_large.jpg){width="50%"}
+</center>
+
+
+## Realtime processing
+
+<video width="100%" height="100%" controls source src="./my_figures/eeg_example.mp4" type="video/mp4">
+
+
+## Auditory brainstem responses (ABRs)
 
 <div class="column" style="float:left; width:30%; text-align: center">
 <center>
@@ -242,7 +448,7 @@ Electrical currents
 <center>
 </div>
 
-## 80 Hz ASSR
+## 80 Hz auditory steady-state responses (ASSRs)
 
 <div class="column" style="float:left; width:30%; text-align: center">
 <center>
@@ -334,6 +540,78 @@ Electrical currents
 <center>
 </div>
 
+# Objective detection and discrimination of binaural cues
+
+## EEG Stimuli
+
+- Amplitude modulated (80 Hz) bandpass noise (100 - 1000 Hz) at 65 dB SPL.
+- Interaural time modulations (ITM) presented at a rate of 6.7 Hz
+- ITM consisted of: 0/0 (diotic), 0/0.1 ms, 0/0.2 ms, 0/0.4 ms, 0/0.8 ms, and antiphasic condition.
+
+<center>
+![](my_figures/stimuli2.png){width="50%"}
+
+## EEG processing
+
+- Data referenced to Cz and  down-sampled to 1024 samples per second
+
+- Poor electrode were automatically detected and removed
+
+- Eye blink artifacts were removed using a template matching suppression method <font size="3">(Valderrama et al., 2018)</font>
+
+- Data filtered using a FIR Kaiser filter (−65 dB ripple and 1 Hz transition between pass and stop band)
+
+- Epochs were sorted and de-noised using spatial filtering <font size="3">(de Cheveigné and Simon, 2008)</font>
+
+- Epochs averaged using a weighted averaging method <font size="3"> (Don and Elberling, 1994) </font>
+
+- Frequency response (FFT of 4255 points at 0.24 Hz resolution) and tested using Hotelling’s T-squared test <font size="3"> Picton et al. (1987) and Picton et al. (2003)</font>
+
+
+## Behavioural Measures
+
+**Digits in noise test**
+
+- Adaptive staircase procedure (2-down/1-up) with variable adaptive step (Leek, 2001; Denys et al. 2019)
+- Three randomly chosen digits were presented in background speech shaped noise. 
+<center>
+![](my_figures/behavioural.png){width="60%"}
+<br>
+![](my_figures/noise.png){width="30%"}
+</center>
+
+## Behavioural methods
+
+- Initial step size: 6 dB first two reversals; 3 dB next two reversals, and 2 dB last six reversals.
+
+- Noise was presented diotically (i.e. identical signal in both ears) at 65 dB SPL. 
+
+- Digits were presented using several **ITDs: 0, 0.1, 0.2, 0.4, 0.8 ms**. In addition, digits were also presented having the opposite polarity in both ears - **antiphasic**.
+
+- 3 runs were obtained per ITD (starting SNR at 10 dB and -30 dB).
+
+- All were presented in random order.
+
+
+## Speech reception thresholds
+<center>
+![](my_figures/post_hocs_srt.png){width=45%}
+![](my_figures/sd_all_subjects_boxplot.png){width=45%}
+</center>
+
+## EEG responses
+
+<center>
+![](my_figures/itd-fr-time-freq.png){width="55%"}
+![](my_figures/itd-fr-topographic_map.png){width="15%"}
+
+## SRT vs EEG
+
+<center>
+![](my_figures/corr_amp_digits.png){width="45%"}
+![](my_figures/corr_mean_amp_digits.png){width="45%"}
+</center>
+
 # The project
 
 ## Spectral cues
@@ -371,7 +649,7 @@ To demonstrate objectively that phoneme-like signals (speech) can be discriminat
 
 <div class="column" style="float:right; width:40%; text-align: center">
 
-<ui class="fragment" data-fragment-index="0" > Examples tested </ui>
+<ui class="fragment" data-fragment-index="0" > Examples </ui>
 <li class="fragment" data-fragment-index="1" data-audio-src="./audio/40_40.wav" data-audio-advance=-1> 40 Hz - 40 Hz </li>
 <li class="fragment" data-fragment-index="2" data-audio-src="./audio/40_80.wav" data-audio-advance=-1> 40 Hz - 80 Hz </li>
 
@@ -396,7 +674,8 @@ Consider different aspects
 - Intensity
 - Spectral components
 - Modulation Frequencies
-
+- Artefacts
+- Optimal parameters
 
 </div>
 
