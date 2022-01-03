@@ -15,6 +15,10 @@ output:
      slideNumber: true
      progress: true
      previewLinks: true
+     width: 860
+     height: 700
+     minScale: 0.2
+     maxScale: 2.0
    includes:
      in_header: header.html
      before_body: doc_prefix.html
@@ -291,8 +295,7 @@ Electrical currents
 
 </div>
 
-
-##
+## Cortical responses to binaural auditory changes
 
 <div class="column" style="float:left; width:100%; text-align: right">
 
@@ -302,6 +305,20 @@ Electrical currents
 
 </div>
 
+
+## Transient ACC responses to binaural cues
+
+<div class="column" style="float:left; width:30%; text-align: center">
+<center>
+![](./my_figures/configuration.png){width="100%"}
+</center>
+</div>
+
+<div class="column" style="float:right; width:70%; text-align: center">
+<video src="./my_figures/acc_ipd_180_n_ch_4_n_comp_1_test_1_T8_EXG1_EXG2_EXG52.mp4" type="video/mp4" controls height="600" width="900" preload="auto">
+</video>
+<center>
+</div>
 
 ## AC-FR responses to binaural cues
 
@@ -331,8 +348,8 @@ Electrical currents
 
 ## Objective detection of discrimination
 
-- Objective detection of spectral discrimination could be useful for the fitting of hearing devices @undurragaNeuralEncodingSpectroTemporal2020.
-- Support decision-making for hearing aid fitting and CI referral (for the parents and audiologists) @mehtaRoleCorticalAuditory2017a.
+- Objective detection of spectral discrimination could be useful for the fitting of hearing devices (@undurragaNeuralEncodingSpectroTemporal2020).
+- Support decision-making for hearing aid fitting and CI referral (for the parents and audiologists) (@mehtaRoleCorticalAuditory2017a).
 
 **Aim**
 
